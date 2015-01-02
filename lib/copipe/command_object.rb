@@ -11,6 +11,5 @@ module Copipe
     def need_confirm?
       @need_confirm
     end
-
   end
 end

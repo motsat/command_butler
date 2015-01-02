@@ -4,7 +4,7 @@ module Copipe
   class Input
 
     module VALUE
-      EXECUTE = %w(yes)
+      EXECUTE = %w(y yes)
       SKIP    = %w(s skip)
       ABORT   = %w(a abort)
     end
@@ -17,6 +17,7 @@ module Copipe
       puts "\nexecute: y or Enter (no: no or n / abort: abort or a)\n"
       puts "current dir ="  + Dir.pwd
       input_value = STDIN.gets.chomp
+      input_value = 'y' if input_value == "" # エンターの実行はyと同じにする
       self.new(input_value:input_value)
     end
 

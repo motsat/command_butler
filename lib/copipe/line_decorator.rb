@@ -1,10 +1,10 @@
 module Copipe
   class LineDecorator
-    def self.decoration(line:line, index:index, current_index: current_index)
+    def self.decoration(line:line, index:index, current_index: current_index, input: input)
       mark = if current_index == index
                "\e[33m" +  " > "
-             elsif current_index > index
-               "\e[34m" + " o "
+             elsif input
+               "\e[34m" + (input.execute?? " o " : " - ")
              else
                "\e[37m" +  "   "
              end

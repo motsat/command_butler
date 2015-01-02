@@ -4,8 +4,8 @@ module Copipe
     attr_reader :input_value
     module VALUE
       EXECUTE = %w(y yes)
-      SKIP    = %w(s skip)
-      ABORT   = %w(a abort)
+      SKIP    = %w(s skip n no)
+      ABORT   = %w(a abort q quit)
     end
 
     def initialize(input_value:input_value)
@@ -32,7 +32,6 @@ module Copipe
         input_value = 'y' if input_value == "" # エンターの実行はyと同じにする
         return self.new(input_value:input_value) if constant_inputs? input_value
         return self.new(input_value:input_value.to_i) if input_value.to_i.nonzero? # jumpコマンド
-        raise 'unknown command'
       end
     end
 

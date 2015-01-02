@@ -3,6 +3,7 @@ module Copipe
     def execute(file_name)
       inputs = {}
       @commands = Parser.parse_with_file(file_name:file_name)
+      #@replaced = replaced
 
       jump_index = -1 # jump制御
 
@@ -21,24 +22,19 @@ module Copipe
         exit 1 if input.abort?
         jump_index = (input.input_value - 1) if input.jump?
         inputs[index] = input
-        res = execute_command(command:command)  if input.execute?
-        replace_commands(set_val:res[:set_val]) if res[:set_val]
-      end
-    end
-
-    def replace_commands(set_val:set_val)
-      @commands.each_with_index do |command, i|
-        next unless command.command
-        @commands[i].replace_command(val:set_val)
+        if input.execute?
+          res = execute_command(command:command) 
+          @commands.each {|c| c.replace_command(val:res[:set_val])} if res[:set_val]
+        end
       end
     end
 
     def execute_command(command:command)
+      res = {set_val:nil}
       Dir.chdir(command.chdir) if command.chdir
-      return unless command.command
+      return  res unless command.command
       # set_valコマンドの時は標準出力を取りたいのでバッククオート実行
       # その他は、都度出力されるものを表示したいのでsystemで実行
-      res = {set_val:nil}
       if command.set_val_command?
         val = `#{command.command}`.chomp
         res[:set_val] = {command.set_val => val}

@@ -1,17 +1,23 @@
 module Copipe
   class CommandObject
-    attr_reader :command, :description, :need_confirm, :chdir, :set_val
+    attr_reader :command, :description, :need_confirm, :chdir, :set_val, :original_command
     def initialize(vars)
-      @command      = vars["command"]
-      @description  = vars["description"]
-      @need_confirm = !vars["need_confirm"]
-      @chdir        = vars["chdir"]
-      @set_val      = vars["set_val"]
+      @original_command  = vars["command"]
+      @command           = vars["command"]
+      @description       = vars["description"]
+      @need_confirm      = !vars["need_confirm"]
+      @chdir             = vars["chdir"]
+      @set_val           = vars["set_val"]
+    end
+
+    def replaced?
+      @command && (@command != @original_command)
     end
 
     def replace_command(val:val)
+      return unless @command
       val.each_pair do |k, v|
-        @command.gsub! k, v
+        @command =  @command.gsub k, v # original_commandと別の参照にするためgsub!は使わない
       end
     end
 

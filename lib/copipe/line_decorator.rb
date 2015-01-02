@@ -9,7 +9,9 @@ module Copipe
                "\e[37m" +  "   "
              end
       ret =  "["+ mark + "\e[0m" + "]"
-      ret + line.command
+      ret += line.command if line.command # コマンド
+      ret += "(chdir : #{line.chdir})" if line.chdir # ディレクトリ移動
+      ret
     end
 
     def confirm_y_or_no

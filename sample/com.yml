@@ -1,0 +1,9 @@
+- cd /Users
+- ls -al
+- sleep 3
+- 
+  chdir: /Users
+- pwd
+- 
+ command: pwd
+ description: "pwdです"

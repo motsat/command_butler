@@ -14,7 +14,7 @@ module Copipe
     end
 
     def self.start
-      puts "\nexecute? y or n\n"
+      puts "\nexecute: y or Enter (no: no or n / abort: abort or a)\n"
       puts "current dir ="  + Dir.pwd
       input_value = STDIN.gets.chomp
       self.new(input_value:input_value)

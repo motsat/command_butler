@@ -1,0 +1,11 @@
+- 
+ command: date
+ set_val: $DATE_VALUE
+- echo $DATE_VALUE
+- sleep 3
+- 
+  chdir: /Users
+- echo $DATE_VALUE
+- 
+ command: pwd
+ description: "pwdです"

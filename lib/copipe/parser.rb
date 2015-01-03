@@ -1,4 +1,5 @@
 require 'copipe/command_object'
+require 'yaml'
 module Copipe
   class Parser
     def self.parse_with_file(file_name:file_name)

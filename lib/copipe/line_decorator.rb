@@ -1,6 +1,6 @@
 module Copipe
   class LineDecorator
-    def self.decoration(line:line, index:index, current_index: current_index, input: input)
+    def self.decoration(command:command, index:index, current_index: current_index, input: input)
       mark = if current_index == index
                "\e[33m" +  " > "
              elsif input
@@ -9,11 +9,11 @@ module Copipe
                "\e[37m" +  "   "
              end
       ret =  "#{index + 1} " + "["+ mark + "\e[0m" + "]"
-      if line.command # コマンド
-        ret += " " + line.command
-        ret += " (#{line.original_command}) " if line.replaced?
+      if command.command # コマンド
+        ret += " " + command.command
+        ret += " (#{command.original_command}) " if command.replaced?
       end
-      ret += " <= chdir to #{line.chdir}" if line.chdir # ディレクトリ移動
+      ret += " <= chdir to #{command.chdir}" if command.chdir # ディレクトリ移動
       ret
     end
   end

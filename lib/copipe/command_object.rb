@@ -21,6 +21,20 @@ module Copipe
       end
     end
 
+    # こういうのを文字列で返したい
+    # {"original_command"=>"date",
+    #   "command"=>"date",
+    #   "description"=>nil,
+    #   "need_confirm"=>true,
+    #   "chdir"=>nil,
+    #   "set_val"=>"$DATE_VALUE"}
+    def params
+      instance_keys = instance_variables.map{|v| v.to_s }
+      instance_values = instance_keys.map{|k| instance_variable_get(k) }
+      key_and_values_array = [instance_keys.map{|k| k.gsub("@","")}, instance_values].transpose.flatten
+      Hash[*key_and_values_array]
+    end
+
     def need_confirm?
       @need_confirm
     end

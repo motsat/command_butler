@@ -1,10 +1,12 @@
+require 'copipe/parser'
+require 'copipe/line_decorator'
+require 'copipe/line_detail_decorator'
+require 'copipe/input'
 module Copipe
   class Mediator
     def execute(file_name)
       inputs = {}
       @commands = Parser.parse_with_file(file_name:file_name)
-      #@replaced = replaced
-
       jump_index = -1 # jump制御
 
       @commands.each_with_index do |command, index|
@@ -46,7 +48,8 @@ module Copipe
 
     def show_commands(current_index:current_index, inputs:inputs)
       @commands.each_with_index do |command, index|
-        puts LineDecorator.decoration line:command, index:index, current_index: current_index, input: inputs[index]
+        puts LineDecorator.decoration command: command, index: index, current_index: current_index, input: inputs[index]
+        puts LineDetailDecorator.decoration command: command
       end
     end
 

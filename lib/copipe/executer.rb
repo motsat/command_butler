@@ -1,8 +1,4 @@
-require 'copipe/parser'
-require 'copipe/line_decorator'
-require 'copipe/input'
 require 'copipe/mediator'
-require 'yaml'
 module Copipe
   class Executer < Thor
     # default_task :execute

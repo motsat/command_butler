@@ -1,6 +1,8 @@
 require 'copipe/parser'
 require 'copipe/line_decorator'
 require 'copipe/line_detail_decorator'
+require 'copipe/result_decorator'
+require 'copipe/title_decorator'
 require 'copipe/input'
 module Copipe
   class Mediator
@@ -8,6 +10,8 @@ module Copipe
       inputs = {}
       @commands = Parser.parse_with_file(file_name:file_name)
       jump_index = -1 # jump制御
+
+      TitleDecorator.decoration(file_name:file_name)
 
       @commands.each_with_index do |command, index|
 
@@ -25,31 +29,38 @@ module Copipe
         jump_index = (input.input_value - 1) if input.jump?
         inputs[index] = input
         if input.execute?
-          res = execute_command(command:command) 
+          res = execute_command(command:command, index:index) 
           @commands.each {|c| c.replace_command(val:res[:set_val])} if res[:set_val]
         end
       end
     end
 
-    def execute_command(command:command)
+    def execute_command(command:command, index:index)
       res = {set_val:nil}
       Dir.chdir(command.chdir) if command.chdir
       return  res unless command.command
       # set_valコマンドの時は標準出力を取りたいのでバッククオート実行
       # その他は、都度出力されるものを表示したいのでsystemで実行
-      if command.set_val_command?
-        val = `#{command.command}`.chomp
-        res[:set_val] = {command.set_val => val}
-      else
-        system command.command
+
+      ResultDecorator.decoration(command: command, index: index) do
+        if command.set_val_command?
+          val = `#{command.command}`.chomp
+          puts val
+          res[:set_val] = {command.set_val => val}
+          puts " (set_val :  #{command.set_val})"
+        else
+          system command.command
+        end
       end
+      sleep 0.5 # 表示がいっきに流れて見失しなうのでsleep
       res
     end
 
     def show_commands(current_index:current_index, inputs:inputs)
       @commands.each_with_index do |command, index|
         puts LineDecorator.decoration command: command, index: index, current_index: current_index, input: inputs[index]
-        puts LineDetailDecorator.decoration command: command
+        detail = LineDetailDecorator.decoration  command: command
+        puts detail if 0 < detail.size
       end
     end
 

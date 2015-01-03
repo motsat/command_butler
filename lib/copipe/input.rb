@@ -26,8 +26,7 @@ module Copipe
 
     def self.start
       while(true)
-        puts "\npush Enter (no: n, quit: q, jump : command-number, skip : s)\n"
-        puts "current dir ="  + Dir.pwd
+        puts "[#{Dir.pwd}] $ execute Enter (no: n, quit: q, jump : command-number, skip : s)\n"
         input_value = STDIN.gets.chomp
         input_value = 'y' if input_value == "" # エンターの実行はyと同じにする
         return self.new(input_value:input_value) if constant_inputs? input_value

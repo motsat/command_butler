@@ -11,7 +11,8 @@ module CommandButler
       ret =  "#{index + 1} " + "["+ mark + "\e[0m" + "]"
       if command.command # コマンド
         ret += " " + command.command
-        #ret += " (#{command.original_command}) " if command.replaced?
+      else
+        ret += " - "
       end
       ret += " <= chdir to #{command.chdir}" if command.chdir # ディレクトリ移動
       ret

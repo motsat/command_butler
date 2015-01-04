@@ -1,0 +1,4 @@
+-
+ description: replace string 'STATION_NAME' and 'STATION_WIKI_URL' with sample/val_file/station.yml
+- echo "STATION_NAME"
+- echo "url = STATION_WIKI_URL"

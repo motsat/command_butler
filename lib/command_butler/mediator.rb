@@ -1,17 +1,28 @@
-require 'command_butler/parser'
+require 'command_butler/command_parser'
+require 'command_butler/val_parser'
 require 'command_butler/line_decorator'
 require 'command_butler/line_detail_decorator'
+require 'command_butler/val_decorator'
 require 'command_butler/result_decorator'
 require 'command_butler/title_decorator'
 require 'command_butler/input'
 module CommandButler
   class Mediator
-    def execute(file_name)
+    def execute(file_name, options)
       inputs = {}
-      @commands = Parser.parse_with_file(file_name:file_name)
+      @commands = CommandParser.parse(file_name:file_name)
+
+      @vals = {}
+      if options[:val_file]
+        @vals = ValParser.parse(file_name:options[:val_file])
+        @vals.each_pair do |k,v|
+          @commands.each {|c| c.replace_command(val:{k=>v})}
+        end
+      end
       jump_index = -1 # jump制御
 
-      TitleDecorator.decoration(file_name:file_name)
+      contents = (0 < @vals.size)? ValDecorator.decoration(vals:@vals) : ""
+      puts TitleDecorator.decoration(file_name:file_name, contents:contents)
 
       @commands.each_with_index do |command, index|
 

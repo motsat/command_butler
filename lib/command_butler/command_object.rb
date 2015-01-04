@@ -1,4 +1,4 @@
-module Copipe
+module CommandButler
   class CommandObject
     attr_reader :command, :description, :need_confirm, :chdir, :set_val, :original_command
     def initialize(vars)

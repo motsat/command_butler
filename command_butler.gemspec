@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'copipe/version'
+require 'command_butler/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "copipe"
-  spec.version       = Copipe::VERSION
+  spec.name          = "command_butler"
+  spec.version       = CommandButler::VERSION
   spec.authors       = ["motsat"]
   spec.email         = ["konpeiex@gmail.com"]
   spec.summary       = %q{Commands Executer}

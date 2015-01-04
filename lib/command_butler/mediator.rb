@@ -1,10 +1,10 @@
-require 'copipe/parser'
-require 'copipe/line_decorator'
-require 'copipe/line_detail_decorator'
-require 'copipe/result_decorator'
-require 'copipe/title_decorator'
-require 'copipe/input'
-module Copipe
+require 'command_butler/parser'
+require 'command_butler/line_decorator'
+require 'command_butler/line_detail_decorator'
+require 'command_butler/result_decorator'
+require 'command_butler/title_decorator'
+require 'command_butler/input'
+module CommandButler
   class Mediator
     def execute(file_name)
       inputs = {}

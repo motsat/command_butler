@@ -1,4 +1,4 @@
-module Copipe
+module CommandButler
   class LineDetailDecorator
     def self.decoration(command:command)
       res = ""

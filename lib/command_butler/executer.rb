@@ -1,5 +1,5 @@
-require 'copipe/mediator'
-module Copipe
+require 'command_butler/mediator'
+module CommandButler
   class Executer < Thor
     # default_task :execute
     desc :filename, "commands list file"

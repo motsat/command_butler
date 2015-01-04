@@ -1,6 +1,6 @@
-require 'copipe/command_object'
+require 'command_butler/command_object'
 require 'yaml'
-module Copipe
+module CommandButler
   class Parser
     def self.parse_with_file(file_name:file_name)
       YAML.load_file(file_name).map do |y|

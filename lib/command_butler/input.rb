@@ -1,4 +1,4 @@
-module Copipe
+module CommandButler
 
   class Input
     attr_reader :input_value

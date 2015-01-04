@@ -1,4 +1,4 @@
-module Copipe
+module CommandButler
   class LineDecorator
     def self.decoration(command:command, index:index, current_index: current_index, input: input)
       mark = if current_index == index

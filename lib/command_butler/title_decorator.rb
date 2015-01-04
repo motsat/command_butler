@@ -1,4 +1,4 @@
-module Copipe
+module CommandButler
   class TitleDecorator
     def self.decoration(file_name:file_name)
       puts head = "--- start" + ("-"  * 40)

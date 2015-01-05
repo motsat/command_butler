@@ -6,6 +6,7 @@ require 'command_butler/val_decorator'
 require 'command_butler/result_decorator'
 require 'command_butler/title_decorator'
 require 'command_butler/input'
+require 'open3'
 module CommandButler
   class Mediator
     def execute(file_name, options)
@@ -50,17 +51,26 @@ module CommandButler
       res = {set_val:nil}
       Dir.chdir(command.chdir) if command.chdir
       return  res unless command.command
-      # set_valコマンドの時は標準出力を取りたいのでバッククオート実行
+      # set_valコマンドの時は標準出力を取りたいのでopen3で実行
       # その他は、都度出力されるものを表示したいのでsystemで実行
 
       ResultDecorator.decoration(command: command, index: index) do
         if command.set_val_command?
-          val = `#{command.command}`.chomp
-          puts val
-          res[:set_val] = {command.set_val => val}
-          puts " (set_val :  #{command.set_val})"
+          stdout, stderr, status = Open3.capture3(command.command)
+          if status.success?
+            puts stdout
+            res[:set_val] = {command.set_val => stdout}
+            puts " (set_val :  #{command.set_val})"
+          else
+            puts "#{stderr}"
+          end
         else
           system command.command
+          unless $?.success?
+            # TODO error
+            # TODO systemで実行した時の標準出力がどこからも見えない
+            puts "error"
+          end
         end
       end
       sleep 0.5 # 表示がいっきに流れて見失しなうのでsleep

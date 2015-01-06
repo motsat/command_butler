@@ -10,7 +10,9 @@ require 'open3'
 module CommandButler
   class Mediator
     def execute(file_name, options)
-      inputs = {}
+      # TODO 履歴配列にして、resultsもいれる
+      # resultクラスも作る
+      histories = {}
       @commands = CommandParser.parse(file_name:file_name)
 
       @vals = {}
@@ -29,17 +31,17 @@ module CommandButler
 
         # jumpが設定されていたらskipしたことにする
         if (index < jump_index)
-          inputs[index] = Input.skip_instance
+          histories[index] = Input.skip_instance
           next
         end
 
         # show all comamnds
-        show_commands(current_index: index, inputs: inputs) # 1件実行ごとにコマンドを表示する
+        show_commands(current_index: index, inputs: histories) # 1件実行ごとにコマンドを表示する
         # execute
         input = command.need_confirm?? Input.start : Input.execute_instance
         exit 1 if input.abort?
         jump_index = (input.input_value - 1) if input.jump?
-        inputs[index] = input
+        histories[index] = input
         if input.execute?
           res = execute_command(command:command, index:index) 
           @commands.each {|c| c.replace_command(val:res[:set_val])} if res[:set_val]

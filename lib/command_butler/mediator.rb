@@ -52,27 +52,17 @@ module CommandButler
       Dir.chdir(command.chdir) if command.chdir
       return  res unless command.command
       # set_valコマンドの時は標準出力を取りたいのでopen3で実行
-      # その他は、都度出力されるものを表示したいのでsystemで実行
 
-      ResultDecorator.decoration(command: command, index: index) do
-        if command.set_val_command?
-          stdout, stderr, status = Open3.capture3(command.command)
-          if status.success?
-            puts stdout
-            res[:set_val] = {command.set_val => stdout}
-            puts " (set_val :  #{command.set_val})"
-          else
-            puts "#{stderr}"
-          end
+      ResultDecorator.decoration_frame(command: command, index: index) do
+        stdout, stderr, status = command.execute
+        if status.success?
+          ResultDecorator.decoration_stdout  stdout: stdout
         else
-          system command.command
-          unless $?.success?
-            # TODO error
-            # TODO systemで実行した時の標準出力がどこからも見えない
-            puts "error"
-          end
+          err =  (0 < stderr.size) ? stderr : "error"
+          ResultDecorator.decoration_stderr stderr: err
         end
       end
+
       sleep 0.5 # 表示がいっきに流れて見失しなうのでsleep
       res
     end

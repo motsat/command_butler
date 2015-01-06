@@ -21,6 +21,29 @@ module CommandButler
       end
     end
 
+    def execute
+      stdout, stderr = ""
+      status = nil
+      options = nil
+      if set_val_command?
+        stdout, stderr, status = Open3.capture3(command)
+        if status.success?
+          stdout = stdout
+        else
+          stderr = stderr
+        end
+      else
+        # その他は、都度出力されるものを表示したい
+        begin
+          `#{command}`
+        rescue => e
+          stderr = e.message
+        end
+        status = $?
+      end
+      [stdout, stderr, status]
+    end
+
     # こういうのを文字列で返したい
     # {"original_command"=>"date",
     #   "command"=>"date",

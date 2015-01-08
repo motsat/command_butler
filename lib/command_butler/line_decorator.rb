@@ -4,7 +4,11 @@ module CommandButler
       mark = if current_index == index
                "\e[33m" +  " > "
              elsif history
-               "\e[32m" + (history[:input].execute?? " o " : " - ")
+                if history[:result]
+                  history[:result][:status].success??  "\e[32m" + " o " :  "\e[31m" + " x "
+                else
+                  "\e[32m" + (history[:input].execute?? " o " : " - ")
+                end
              else
                "\e[37m" +  "   "
              end

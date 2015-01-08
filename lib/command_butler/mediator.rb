@@ -10,7 +10,6 @@ require 'open3'
 module CommandButler
   class Mediator
     def execute(file_name, options)
-      # TODO 履歴配列にして、resultsもいれる
       # resultクラスも作る
       histories = []
       @commands = CommandParser.parse(file_name:file_name)

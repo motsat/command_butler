@@ -1,7 +1,7 @@
 module CommandButler
   class ResultDecorator
     def self.decoration_frame(command:command,index:index, &block)
-      puts head = "--  [#{index+1}] " + (command.command || command.chdir) + "-" * 30
+      puts head = "--  [#{index+1}] #{command.command || command.chdir} " + "-" * 30
       yield
       puts "-" * head.length
     end

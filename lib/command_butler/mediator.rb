@@ -55,15 +55,13 @@ module CommandButler
       return unless command.command
 
       # set_valコマンドの時は標準出力を取りたいのでopen3で実行
-      stdout, stderr, status = command.execute
+      stdout, stderr, status = "", "", nil
       ResultDecorator.decoration_frame(command: command, index: index) do
         stdout, stderr, status = command.execute
-        #histories[index][:result] =  {stdout:stdout, stderr: stderr, status: status}
         if status.success?
-          ResultDecorator.decoration_stdout  stdout: stdout
+          ResultDecorator.decoration_stdout  stdout: stdout, status:status
         else
-          err =  (0 < stderr.size) ? stderr : "error"
-          ResultDecorator.decoration_stderr stderr: err
+          ResultDecorator.decoration_stderr stderr: stderr, status:status
         end
       end
 

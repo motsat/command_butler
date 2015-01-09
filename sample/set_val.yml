@@ -8,4 +8,4 @@
 - echo $DATE_VALUE
 - 
  command: pwd
- description: "pwdです"
+ description: "return working directory name(man)"

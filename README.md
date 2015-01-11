@@ -21,12 +21,12 @@ Create a file wrote the run command. format is yml
 ### command execution only
     $ command_butler execute sample/simple_commands.yml
 
-![Alt Text](https://raw.githubusercontent.com/motsat/command_butler/feature/readme_update/images/command_butler_simple.gif)
+![Alt Text](https://raw.githubusercontent.com/motsat/command_butler/master/images/command_butler_simple.gif)
 
 ### replace value in the command result
     $ command_butler execute sample/set_val.yml
 
-![Alt Text](https://raw.githubusercontent.com/motsat/command_butler/feature/readme_update/images/command_butler_set_val.gif)
+![Alt Text](https://raw.githubusercontent.com/motsat/command_butler/master/images/command_butler_set_val.gif)
 
 ### replace value in the configuration file
 
@@ -34,7 +34,7 @@ Create a file wrote the run command. format is yml
     $                           --val_file=sample/val_file/station.yml
     $
 
-![Alt Text](https://raw.githubusercontent.com/motsat/command_butler/feature/readme_update/images/command_butler_replace_val.gif)
+![Alt Text](https://raw.githubusercontent.com/motsat/command_butler/master/images/command_butler_replace_val.gif)
 
 ## Configuration File
 format  : yaml

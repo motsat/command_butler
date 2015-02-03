@@ -41,6 +41,9 @@ module CommandButler
         exit 1 if input.abort?
         jump_index = (input.input_value - 1) if input.jump?
         histories[index] = {input: input}
+
+        Dir.chdir(command.chdir) if command.chdir
+
         if input.execute? && command.command
           stdout, stderr, status = execute_command(command:command, index:index) 
           histories[index][:result] = {stdout:stdout, stderr: stderr, status: status}
@@ -50,7 +53,6 @@ module CommandButler
     end
 
     def execute_command(command:command, index:index)
-      Dir.chdir(command.chdir) if command.chdir
       return unless command.command
 
       # set_valコマンドの時は標準出力を取りたいのでopen3で実行

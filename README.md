@@ -4,49 +4,55 @@ It is a gem that will continue to run the command that was written to a file int
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Gemfileに以下を追加
 
+```
     gem 'command_butler'
+```
+gemのインストール
 
-And then execute:
+```
+$ bundle install
+```
 
-    $ bundle
+もしくは直接インストールする。
 
-Or install it yourself as:
-
-    $ gem install command_butler
+```
+$ gem install command_butler
+```
 
 ## Usage 
-Create a file wrote the run command. format is yml
-### command execution only
-    $ command_butler execute sample/simple_commands.yml
+コマンドを記述したymlファイルを、executeの引数として渡し実行します。
+### コマンド実行のみ
+```
+$ command_butler execute sample/simple_commands.yml
+```
 
 ![Alt Text](https://raw.githubusercontent.com/motsat/command_butler/master/images/command_butler_simple.gif)
 
-### replace value in the command result
+### コマンド実行の戻り値で、実行コマンドの置換を行う時
     $ command_butler execute sample/set_val.yml
 
 ![Alt Text](https://raw.githubusercontent.com/motsat/command_butler/master/images/command_butler_set_val.gif)
 
-### replace value in the configuration file
+### 設定ファイルで実行コマンドの置換を行う時
 
     $ command_butler execute sample/replace_with_valfile.yml 
     $                           --val_file=sample/val_file/station.yml
-    $
 
 ![Alt Text](https://raw.githubusercontent.com/motsat/command_butler/master/images/command_butler_replace_val.gif)
 
-## Configuration File
+## 設定ファイル
 format  : yaml
 
-define a single command in an array of YAML
+YAMLファイルに、下記のように配列形式で記述します。
 
     [yml]
       - pwd
       - echo 'Hellow World'
       - ls -al
 
-Change of directory is not a cd command to define the Chdir
+注）cdコマンドについては下記の方法で記述します。
 
     [yml]
       - pwd
@@ -54,10 +60,7 @@ Change of directory is not a cd command to define the Chdir
         chdir: /Users
       - pwd
 
-can use the results to standard output as a parameter
-That you use the "set" command
-set the parameter name is optional . And parameter names , to match a character string in the command to be replaced
-
+コマンドの出力結果で後のコマンドで置換するには、set_valコマンドを使います。
     [yml]
 
       -
@@ -73,5 +76,3 @@ set the parameter name is optional . And parameter names , to match a character 
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create a new Pull Request
-
-
